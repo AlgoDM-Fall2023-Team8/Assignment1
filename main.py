@@ -246,6 +246,7 @@ if st.session_state.stage==1:
 
     if(option_selected==question_queries[7]):
          hd_dep_count_select_1,hd_dep_count_select_2,hd_dep_count_select_3,store=show_parameters_8()
+   
 
 
 if st.session_state.runquery==1:
