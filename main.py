@@ -36,7 +36,8 @@ question_queries = [
     "List all customers living in a specified city, with an income between 2 values.",
     "For all web return reason calculate the average sales, average refunded cash and average return fee by different combinations of customer and sales types (e.g., based on marital status, education status, state and sales profit).",
     "Rollup the web sales for a given year by category and class, and rank the sales among peers within the parent, for each group compute sum of sales, location with the hierarchy and rank within the group.",
-    "Count how many customers have ordered on the same day items on the web and the catalog and on the same day have bought items in a store"
+    "Count how many customers have ordered on the same day items on the web and the catalog and on the same day have bought items in a store",
+    "How many items do we sell between pacific times of a day in certain stores to customers with one dependent count and 2 or less vehicles registered or 2 dependents with 4 or fewer vehicles registered or 3 dependents and five or less vehicles registered. In one row break the counts into sells from 8:30 to 9, 9 to 9:30, 9:30 to 10 ... 12 to 12:30",
 ]
 
 ##initally storing the session variables
@@ -194,6 +195,30 @@ def show_parameters_7():
 
         return no_of_dms_7
 
+def show_parameters_8():
+        with st.form(key='8'):
+            
+
+            hd_dep_count_8=pd.read_sql_query("Select distinct(hd_dep_count) from household_demographics order by hd_dep_count;",engine)
+            hd_vehicle_count_8=pd.read_sql_query(" Select distinct(hd_vehicle_count) from household_demographics order by hd_vehicle_count;",engine)
+            store=pd.read_sql_query("Select distinct(s_store_name) from store order by s_store_name;",engine)
+        
+            hd_dep_count_select_1=st.selectbox("Pick Househould demographics count",hd_dep_count_8,key="81")
+            hd_dep_count_select_2=st.selectbox("Pick Househould demographics count ",hd_dep_count_8,key="82")
+            hd_dep_count_select_3=st.selectbox("Pick Househould demographics count ",hd_dep_count_8,key="83")
+            store=st.selectbox("Pick the store",store)
+
+
+                        
+
+            
+
+
+
+             
+            
+            submit_query_1=st.form_submit_button('Submit the paramters',on_click=param,args=(1,))
+        return hd_dep_count_select_1,hd_dep_count_select_2,hd_dep_count_select_3,store
 
 if st.session_state.stage==1:
 
@@ -219,6 +244,8 @@ if st.session_state.stage==1:
     if(option_selected==question_queries[6]):
          no_of_dms_7=show_parameters_7()
 
+    if(option_selected==question_queries[7]):
+         hd_dep_count_select_1,hd_dep_count_select_2,hd_dep_count_select_3,store=show_parameters_8()
 
 
 if st.session_state.runquery==1:
@@ -336,6 +363,28 @@ if st.session_state.runquery==1:
                             connection.close()
                             engine.dispose()
 
+    if(option_selected==question_queries[7]):
+                        try:
+                             hour1=int(hd_dep_count_select_1)
+                             add_hour1=hour1+2
 
+                             hour2=int(hd_dep_count_select_2)
+                             add_hour2=hour2+2
+
+                             hour3=-int(hd_dep_count_select_3)
+                             add_hour3=hour3+2                         
+                             print(hour3)
+
+                             df=pd.read_sql_query(run_query_8(store,hour1,add_hour1,hour2,add_hour2,hour3,add_hour3),engine)
+                             
+                             if df.empty:
+                                st.write("No results found")
+                             else:
+                                st.write(df)
+                             
+                        finally:
+
+                            connection.close()
+                            engine.dispose()
 
 
