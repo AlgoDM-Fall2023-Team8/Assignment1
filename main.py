@@ -29,8 +29,7 @@ engine = create_engine(URL(
 connection = engine.connect()
 
 # creating an aray of all the questions
-question_queries = [
-    "Find customers and their detailed customer data who have returned items bought from the catalog more than 20 percent the average customer returns for customers in a given state in a given time period. Order output by customer data.",
+question_queries = [ "Find customers and their detailed customer data who have returned items bought from the catalog more than 20 percent the average customer returns for customers in a given state in a given time period. Order output by customer data.",
     "Find customers who tend to spend more money (net-paid) on-line than in stores.",
     "Retrieve the items with the highest number of returns where the number of returns was approximately equivalent across all store, catalog and web channels (within a tolerance of +/- 10%), within the week ending a given date", 
     "List all customers living in a specified city, with an income between 2 values.",
@@ -39,7 +38,7 @@ question_queries = [
     "Count how many customers have ordered on the same day items on the web and the catalog and on the same day have bought items in a store",
     "How many items do we sell between pacific times of a day in certain stores to customers with one dependent count and 2 or less vehicles registered or 2 dependents with 4 or fewer vehicles registered or 3 dependents and five or less vehicles registered. In one row break the counts into sells from 8:30 to 9, 9 to 9:30, 9:30 to 10 ... 12 to 12:30",
     "Within a year list all month and combination of item categories, classes and brands that have had monthly sales larger than 0.1 percent of the total yearly sales.",
-    "What is the ratio between the number of items sold over the internet in the morning (8 to 9am) to the number of items sold in the evening (7 to 8pm) of customers with a specified number of dependents"ßß
+    "What is the ratio between the number of items sold over the internet in the morning (8 to 9am) to the number of items sold in the evening (7 to 8pm) of customers with a specified number of dependents"
 ]
 
 ##initally storing the session variables
