@@ -55,7 +55,7 @@ def param(runquery):
 def dis(stage):
       st.session_state.stage = stage
 
-
+st.title('Stream Flake :sunglasses:' )
 # making the form 
 option_selected=st.selectbox("Pick one", question_queries)    
 get_parameters= st.button('Get parameters',on_click=dis,args=(1,)) 
@@ -97,9 +97,9 @@ def show_parameters_2():
             max_date = datetime(2100, 1, 1) 
             min_date=datetime(1900,1,2)
             with col1:
-                  m_id_1=st.selectbox("Pick the first manufacture",manx_id,key="1")
+                  m_id_1=st.selectbox("Pick the first manufacture id",manx_id,key="1")
                   m_id_2=st.selectbox("Pick the second manufacture id",manx_id,key="2")
-                  first_date = st.date_input("Select first date ")
+                  first_date = st.date_input("Select first date ",max_value=max_date,min_value=min_date)
 
             with col2:
                 m_id_3=st.selectbox("Pick the third manufacture id",manx_id)
@@ -232,12 +232,12 @@ def show_parameters_9():
             # hd_dep_count_select_1=st.selectbox("Pick Househould demographics count",hd_dep_count_8,key="81")
 
             option_item_select = st.multiselect(
-                'What are your favorite colors',item)
+                'Select category ',item,['Books'])
 
             i_class_select = st.multiselect(
-                'What are your favorite colors',i_class)
+                'Select the class ',i_class,['arts'])
             
-            time_period_year=st.selectbox("Pick the first manufacture",time_period_year)
+            time_period_year=st.selectbox("Pick the year",time_period_year)
                        
             
             submit_query_1=st.form_submit_button('Submit the paramters',on_click=param,args=(1,))
@@ -320,6 +320,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)                             
                              
                         finally:
@@ -337,6 +338,7 @@ if st.session_state.runquery==1:
                             if df.empty:
                                 st.write("No results found")
                             else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -353,6 +355,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -371,6 +374,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -385,6 +389,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -403,6 +408,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -420,6 +426,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -444,6 +451,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -458,6 +466,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                              
@@ -470,9 +479,11 @@ if st.session_state.runquery==1:
     if(option_selected==question_queries[9]):
                         try:
                              df=pd.read_sql_query(run_query_10(morning_start_time_select,morning_end_time_select,evening_start_time_select,evening_end_time_select,no_of_dependents),engine)
-                             
-
-                             st.write(df)
+                             if df.empty:
+                                st.write("No results found")
+                             else:
+                                st.write("Dataframe -")
+                                st.write(df)
                              
                         finally:
 
