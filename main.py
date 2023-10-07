@@ -29,8 +29,7 @@ engine = create_engine(URL(
 connection = engine.connect()
 
 # creating an aray of all the questions
-question_queries = [
-    "Find customers and their detailed customer data who have returned items bought from the catalog more than 20 percent the average customer returns for customers in a given state in a given time period. Order output by customer data.",
+question_queries = [ "Find customers and their detailed customer data who have returned items bought from the catalog more than 20 percent the average customer returns for customers in a given state in a given time period. Order output by customer data.",
     "Find customers who tend to spend more money (net-paid) on-line than in stores.",
     "Retrieve the items with the highest number of returns where the number of returns was approximately equivalent across all store, catalog and web channels (within a tolerance of +/- 10%), within the week ending a given date", 
     "List all customers living in a specified city, with an income between 2 values.",
@@ -39,7 +38,7 @@ question_queries = [
     "Count how many customers have ordered on the same day items on the web and the catalog and on the same day have bought items in a store",
     "How many items do we sell between pacific times of a day in certain stores to customers with one dependent count and 2 or less vehicles registered or 2 dependents with 4 or fewer vehicles registered or 3 dependents and five or less vehicles registered. In one row break the counts into sells from 8:30 to 9, 9 to 9:30, 9:30 to 10 ... 12 to 12:30",
     "Within a year list all month and combination of item categories, classes and brands that have had monthly sales larger than 0.1 percent of the total yearly sales.",
-    "What is the ratio between the number of items sold over the internet in the morning (8 to 9am) to the number of items sold in the evening (7 to 8pm) of customers with a specified number of dependents"ßß
+    "What is the ratio between the number of items sold over the internet in the morning (8 to 9am) to the number of items sold in the evening (7 to 8pm) of customers with a specified number of dependents"
 ]
 
 ##initally storing the session variables
@@ -56,7 +55,7 @@ def param(runquery):
 def dis(stage):
       st.session_state.stage = stage
 
-
+st.title('Stream Flake :sunglasses:' )
 # making the form 
 option_selected=st.selectbox("Pick one", question_queries)    
 get_parameters= st.button('Get parameters',on_click=dis,args=(1,)) 
@@ -98,9 +97,9 @@ def show_parameters_2():
             max_date = datetime(2100, 1, 1) 
             min_date=datetime(1900,1,2)
             with col1:
-                  m_id_1=st.selectbox("Pick the first manufacture",manx_id,key="1")
+                  m_id_1=st.selectbox("Pick the first manufacture id",manx_id,key="1")
                   m_id_2=st.selectbox("Pick the second manufacture id",manx_id,key="2")
-                  first_date = st.date_input("Select first date ")
+                  first_date = st.date_input("Select first date ",max_value=max_date,min_value=min_date)
 
             with col2:
                 m_id_3=st.selectbox("Pick the third manufacture id",manx_id)
@@ -233,12 +232,12 @@ def show_parameters_9():
             # hd_dep_count_select_1=st.selectbox("Pick Househould demographics count",hd_dep_count_8,key="81")
 
             option_item_select = st.multiselect(
-                'What are your favorite colors',item)
+                'Select category ',item,['Books'])
 
             i_class_select = st.multiselect(
-                'What are your favorite colors',i_class)
+                'Select the class ',i_class,['arts'])
             
-            time_period_year=st.selectbox("Pick the first manufacture",time_period_year)
+            time_period_year=st.selectbox("Pick the year",time_period_year)
                        
             
             submit_query_1=st.form_submit_button('Submit the paramters',on_click=param,args=(1,))
@@ -320,6 +319,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)                             
                              
                         finally:
@@ -337,6 +337,7 @@ if st.session_state.runquery==1:
                             if df.empty:
                                 st.write("No results found")
                             else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -353,6 +354,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -371,6 +373,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -385,6 +388,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -403,6 +407,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -420,6 +425,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -444,6 +450,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                         finally:
@@ -458,6 +465,7 @@ if st.session_state.runquery==1:
                              if df.empty:
                                 st.write("No results found")
                              else:
+                                st.write("Dataframe -")
                                 st.write(df)
                              
                              
@@ -470,9 +478,11 @@ if st.session_state.runquery==1:
     if(option_selected==question_queries[9]):
                         try:
                              df=pd.read_sql_query(run_query_10(morning_start_time_select,morning_end_time_select,evening_start_time_select,evening_end_time_select,no_of_dependents),engine)
-                             
-
-                             st.write(df)
+                             if df.empty:
+                                st.write("No results found")
+                             else:
+                                st.write("Dataframe -")
+                                st.write(df)
                              
                         finally:
 
