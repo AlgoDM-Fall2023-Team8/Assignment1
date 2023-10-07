@@ -34,3 +34,49 @@ def run_query_7(DMS2,add_dms2):
 def run_query_8(store,hour1,add_hour1,hour2,add_hour2,hour3,add_hour3):
   sql_query_8=f"select  * from (select count(*) h8_30_to_9 from store_sales, household_demographics , time_dim, store where ss_sold_time_sk = time_dim.t_time_sk and ss_hdemo_sk = household_demographics.hd_demo_sk and ss_store_sk = s_store_sk and time_dim.t_hour = 8 and time_dim.t_minute >= 30 and ((household_demographics.hd_dep_count = {hour1} and household_demographics.hd_vehicle_count<={add_hour1}) or (household_demographics.hd_dep_count = {hour2} and household_demographics.hd_vehicle_count<={add_hour2}) or (household_demographics.hd_dep_count = {hour3} and household_demographics.hd_vehicle_count<={add_hour3})) and store.s_store_name = '{store}') s1, (select count(*) h9_to_9_30 from store_sales, household_demographics , time_dim, store where ss_sold_time_sk = time_dim.t_time_sk and ss_hdemo_sk = household_demographics.hd_demo_sk and ss_store_sk = s_store_sk and time_dim.t_hour = 9 and time_dim.t_minute < 30 and ((household_demographics.hd_dep_count = {hour1} and household_demographics.hd_vehicle_count<={add_hour1}) or (household_demographics.hd_dep_count = {hour2} and household_demographics.hd_vehicle_count<={add_hour2}) or (household_demographics.hd_dep_count = {hour3} and household_demographics.hd_vehicle_count<={add_hour3})) and store.s_store_name = '{store}') s2, (select count(*) h9_30_to_10 from store_sales, household_demographics , time_dim, store where ss_sold_time_sk = time_dim.t_time_sk and ss_hdemo_sk = household_demographics.hd_demo_sk and ss_store_sk = s_store_sk and time_dim.t_hour = 9 and time_dim.t_minute >= 30 and ((household_demographics.hd_dep_count = {hour1} and household_demographics.hd_vehicle_count<={add_hour1}) or (household_demographics.hd_dep_count = {hour2} and household_demographics.hd_vehicle_count<={add_hour2}) or (household_demographics.hd_dep_count = {hour3} and household_demographics.hd_vehicle_count<={add_hour3})) and store.s_store_name = '{store}') s3, (select count(*) h10_to_10_30 from store_sales, household_demographics , time_dim, store where ss_sold_time_sk = time_dim.t_time_sk and ss_hdemo_sk = household_demographics.hd_demo_sk and ss_store_sk = s_store_sk and time_dim.t_hour = 10 and time_dim.t_minute < 30 and ((household_demographics.hd_dep_count = {hour1} and household_demographics.hd_vehicle_count<={hour1}) or (household_demographics.hd_dep_count = {hour2} and household_demographics.hd_vehicle_count<={hour2}) or (household_demographics.hd_dep_count = {hour3} and household_demographics.hd_vehicle_count<={hour3})) and store.s_store_name = '{store}') s4, (select count(*) h10_30_to_11 from store_sales, household_demographics , time_dim, store where ss_sold_time_sk = time_dim.t_time_sk and ss_hdemo_sk = household_demographics.hd_demo_sk and ss_store_sk = s_store_sk and time_dim.t_hour = 10 and time_dim.t_minute >= 30 and ((household_demographics.hd_dep_count = {hour1} and household_demographics.hd_vehicle_count<={add_hour1}) or (household_demographics.hd_dep_count = {hour2} and household_demographics.hd_vehicle_count<={add_hour2}) or (household_demographics.hd_dep_count = {hour3} and household_demographics.hd_vehicle_count<={add_hour3})) and store.s_store_name = '{store}') s5, (select count(*) h11_to_11_30 from store_sales, household_demographics , time_dim, store where ss_sold_time_sk = time_dim.t_time_sk and ss_hdemo_sk = household_demographics.hd_demo_sk and ss_store_sk = s_store_sk and time_dim.t_hour = 11 and time_dim.t_minute < 30 and ((household_demographics.hd_dep_count = 0 and household_demographics.hd_vehicle_count<=0+2) or (household_demographics.hd_dep_count = 1 and household_demographics.hd_vehicle_count<=1+2) or (household_demographics.hd_dep_count = -1 and household_demographics.hd_vehicle_count<=-1+2)) and store.s_store_name = '{store}') s6, (select count(*) h11_30_to_12 from store_sales, household_demographics , time_dim, store where ss_sold_time_sk = time_dim.t_time_sk and ss_hdemo_sk = household_demographics.hd_demo_sk and ss_store_sk = s_store_sk and time_dim.t_hour = 11 and time_dim.t_minute >= 30 and ((household_demographics.hd_dep_count = {hour1} and household_demographics.hd_vehicle_count<={add_hour1}) or (household_demographics.hd_dep_count = {hour2} and household_demographics.hd_vehicle_count<={add_hour2}) or (household_demographics.hd_dep_count = {hour2} and household_demographics.hd_vehicle_count<={add_hour2})) and store.s_store_name = '{store}') s7, (select count(*) h12_to_12_30 from store_sales, household_demographics , time_dim, store where ss_sold_time_sk = time_dim.t_time_sk and ss_hdemo_sk = household_demographics.hd_demo_sk and ss_store_sk = s_store_sk and time_dim.t_hour = 12 and time_dim.t_minute < 30 and ((household_demographics.hd_dep_count = {hour1} and household_demographics.hd_vehicle_count<={add_hour1}) or (household_demographics.hd_dep_count = {hour2} and household_demographics.hd_vehicle_count<={add_hour2}) or (household_demographics.hd_dep_count = {hour3} and household_demographics.hd_vehicle_count<={add_hour3})) and store.s_store_name = '{store}') s8"
   return sql_query_8
+
+def run_query_9(categories,classes,year):
+   # Lists of categories and classes
+
+
+      # Join the lists into comma-separated strings
+      categories_str = "', '".join(categories)
+      classes_str = "', '".join(classes)
+
+      # Modify your query string to include multiple categories and classes
+      sql_query = f"""
+      SELECT *
+      FROM (
+      SELECT
+            i_category, i_class, i_brand,
+            s_store_name, s_company_name,
+            d_moy,
+            SUM(ss_sales_price) sum_sales,
+            AVG(SUM(ss_sales_price)) OVER (
+                  PARTITION BY i_category, i_brand, s_store_name, s_company_name
+            ) avg_monthly_sales
+      FROM
+            item, store_sales, date_dim, store
+      WHERE
+            ss_item_sk = i_item_sk
+            AND ss_sold_date_sk = d_date_sk
+            AND ss_store_sk = s_store_sk
+            AND d_year IN ({year})
+            AND (
+                  (i_category IN ('{categories_str}') AND i_class IN ('{classes_str}'))
+            )
+      GROUP BY
+            i_category, i_class, i_brand,
+            s_store_name, s_company_name, d_moy
+      ) tmp1
+      WHERE
+      CASE
+            WHEN (avg_monthly_sales <> 0) THEN (ABS(sum_sales - avg_monthly_sales) / avg_monthly_sales)
+            ELSE NULL
+      END > 0.1
+      ORDER BY
+      sum_sales - avg_monthly_sales, s_store_name
+      LIMIT 100;
+      """
+
+      return sql_query
