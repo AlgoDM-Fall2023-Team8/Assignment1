@@ -220,6 +220,34 @@ def show_parameters_8():
             submit_query_1=st.form_submit_button('Submit the paramters',on_click=param,args=(1,))
         return hd_dep_count_select_1,hd_dep_count_select_2,hd_dep_count_select_3,store
 
+def show_parameters_9():
+        with st.form(key='8'):
+            
+
+            item=pd.read_sql_query("Select distinct(i_category) from item order by i_category;",engine)
+            i_class=pd.read_sql_query("Select distinct(i_class) from item order by i_class;",engine)
+            time_period_year=pd.read_sql_query("Select distinct(d_year) from date_dim order by d_year;",engine)
+
+            # hd_dep_count_select_1=st.selectbox("Pick Househould demographics count",hd_dep_count_8,key="81")
+
+            option_item_select = st.multiselect(
+                'What are your favorite colors',item)
+
+            i_class_select = st.multiselect(
+                'What are your favorite colors',i_class)
+            
+            time_period_year=st.selectbox("Pick the first manufacture",time_period_year)
+                        
+
+            
+
+
+
+             
+            
+            submit_query_1=st.form_submit_button('Submit the paramters',on_click=param,args=(1,))
+        return option_item_select,i_class_select,time_period_year      
+
 if st.session_state.stage==1:
 
     if(option_selected==question_queries[0]):
@@ -247,6 +275,8 @@ if st.session_state.stage==1:
     if(option_selected==question_queries[7]):
          hd_dep_count_select_1,hd_dep_count_select_2,hd_dep_count_select_3,store=show_parameters_8()
 
+    if(option_selected==question_queries[8]):
+         option_item_select,i_class_select,time_period_year=show_parameters_9()
 
 if st.session_state.runquery==1:
     if(option_selected==question_queries[0]):
@@ -388,3 +418,17 @@ if st.session_state.runquery==1:
                             engine.dispose()
 
 
+    if(option_selected==question_queries[8]):
+                        try:
+                             df=pd.read_sql_query(run_query_9(option_item_select,i_class_select,time_period_year),engine)
+                             if df.empty:
+                                st.write("No results found")
+                             else:
+                                st.write(df)
+                             
+                             
+                             
+                        finally:
+
+                            connection.close()
+                            engine.dispose()
