@@ -38,6 +38,8 @@ question_queries = [
     "Rollup the web sales for a given year by category and class, and rank the sales among peers within the parent, for each group compute sum of sales, location with the hierarchy and rank within the group.",
     "Count how many customers have ordered on the same day items on the web and the catalog and on the same day have bought items in a store",
     "How many items do we sell between pacific times of a day in certain stores to customers with one dependent count and 2 or less vehicles registered or 2 dependents with 4 or fewer vehicles registered or 3 dependents and five or less vehicles registered. In one row break the counts into sells from 8:30 to 9, 9 to 9:30, 9:30 to 10 ... 12 to 12:30",
+    "Within a year list all month and combination of item categories, classes and brands that have had monthly sales larger than 0.1 percent of the total yearly sales.",
+    "What is the ratio between the number of items sold over the internet in the morning (8 to 9am) to the number of items sold in the evening (7 to 8pm) of customers with a specified number of dependents"ßß
 ]
 
 ##initally storing the session variables
@@ -237,16 +239,39 @@ def show_parameters_9():
                 'What are your favorite colors',i_class)
             
             time_period_year=st.selectbox("Pick the first manufacture",time_period_year)
-                        
-
-            
-
-
-
-             
+                       
             
             submit_query_1=st.form_submit_button('Submit the paramters',on_click=param,args=(1,))
         return option_item_select,i_class_select,time_period_year      
+
+
+
+def show_parameters_query_10():
+        with st.form(key='columns_in_form'):
+            col1, col2 = st.columns(2)
+
+            get_time=pd.read_sql_query("Select distinct(t_hour) from time_dim order by t_hour;",engine)
+            get_dependents=pd.read_sql_query("Select distinct(hd_dep_count) from household_demographics order by hd_dep_count;",engine)
+        
+            with col1:
+                morning_start_time_select=st.selectbox("Pick the start time in morning",get_time)
+                evening_start_time_select=st.selectbox("Pick the start time in evening",get_time) 
+                no_of_dependents=st.selectbox("Pick the number of dependents",get_dependents) 
+                        
+
+            
+            with col2:
+                morning_end_time_select=st.selectbox("Pick the end time in morning",get_time)            
+                evening_end_time_select=st.selectbox("Pick the end_time in evening",get_time)
+            
+    
+            submit_time= st.form_submit_button('Submit the parameters',on_click=param,args=(1,))
+
+        
+
+        return morning_start_time_select,morning_end_time_select,evening_start_time_select,evening_end_time_select,no_of_dependents
+
+
 
 if st.session_state.stage==1:
 
@@ -277,6 +302,15 @@ if st.session_state.stage==1:
 
     if(option_selected==question_queries[8]):
          option_item_select,i_class_select,time_period_year=show_parameters_9()
+
+    if(option_selected==question_queries[9]):
+          morning_start_time_select,morning_end_time_select,evening_start_time_select,evening_end_time_select,no_of_dependents=show_parameters_query_10()   
+
+
+
+
+
+
 
 if st.session_state.runquery==1:
     if(option_selected==question_queries[0]):
@@ -427,6 +461,18 @@ if st.session_state.runquery==1:
                                 st.write(df)
                              
                              
+                             
+                        finally:
+
+                            connection.close()
+                            engine.dispose()
+
+    if(option_selected==question_queries[9]):
+                        try:
+                             df=pd.read_sql_query(run_query_10(morning_start_time_select,morning_end_time_select,evening_start_time_select,evening_end_time_select,no_of_dependents),engine)
+                             
+
+                             st.write(df)
                              
                         finally:
 
