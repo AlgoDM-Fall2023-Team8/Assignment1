@@ -168,7 +168,7 @@ def show_parameters_4():
 
             
             with col2:
-             income=st.text_input("Pick the income")
+             income=st.text_input("Pick the income","29438")
         
             submit_query_1=st.form_submit_button('Submit the paramters',on_click=param,args=(1,))
         
@@ -315,13 +315,11 @@ if st.session_state.stage==1:
 if st.session_state.runquery==1:
     if(option_selected==question_queries[0]):
                         try:
-                             df=pd.read_sql_query(run_query_1(time_period_year_select,ca_state_select),engine)
+                            df=pd.read_sql_query(run_query_1(time_period_year_select,ca_state_select),engine)
                              
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)                             
+
+                            st.write("Dataframe -")
+                            st.write(df)                             
                              
                         finally:
 
@@ -335,11 +333,9 @@ if st.session_state.runquery==1:
 
                             df=pd.read_sql_query(run_query_2(m_id_1,m_id_2,m_id_3,m_id_4,first_date,price,add_price),engine)
                             print(run_query_2(m_id_1,m_id_2,m_id_3,m_id_4,first_date,price,add_price)) 
-                            if df.empty:
-                                st.write("No results found")
-                            else:
-                                st.write("Dataframe -")
-                                st.write(df)
+
+                            st.write("Dataframe -")
+                            st.write(df)
                              
                         finally:
 
@@ -352,11 +348,8 @@ if st.session_state.runquery==1:
                              df=pd.read_sql_query(run_query_3(first_date,second_date,third_date),engine)
                              
                              print(first_date,second_date,third_date)
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)
+                             st.write("Dataframe -")
+                             st.write(df)
                              
                         finally:
 
@@ -371,11 +364,8 @@ if st.session_state.runquery==1:
                              
                              print(city_select,income)
                              print(run_query_4(city_select,income,add_income))
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)
+                             st.write("Dataframe -")
+                             st.write(df)
                              
                         finally:
 
@@ -386,11 +376,8 @@ if st.session_state.runquery==1:
                              df=pd.read_sql_query(run_query_5(maratial_status_select,education_status_select,year_select,ca_state_1,ca_state_2,ca_satte_3,),engine)
                              
                              
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)
+                             st.write("Dataframe -")
+                             st.write(df)
                              
                         finally:
 
@@ -405,11 +392,8 @@ if st.session_state.runquery==1:
                              
                              print(add_dms,no_of_dms)
                              print(run_query_6(no_of_dms,add_dms))
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)
+                             st.write("Dataframe -")
+                             st.write(df)
                              
                         finally:
 
@@ -423,11 +407,8 @@ if st.session_state.runquery==1:
                              df=pd.read_sql_query(run_query_7(no_of_dms_7,  add_dms_7),engine)
                              
                              print(add_dms_7,no_of_dms_7)
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)
+                             st.write("Dataframe -")
+                             st.write(df)
                              
                         finally:
 
@@ -448,11 +429,8 @@ if st.session_state.runquery==1:
 
                              df=pd.read_sql_query(run_query_8(store,hour1,add_hour1,hour2,add_hour2,hour3,add_hour3),engine)
                              
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)
+                             st.write("Dataframe -")
+                             st.write(df)
                              
                         finally:
 
@@ -463,11 +441,8 @@ if st.session_state.runquery==1:
     if(option_selected==question_queries[8]):
                         try:
                              df=pd.read_sql_query(run_query_9(option_item_select,i_class_select,time_period_year),engine)
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)
+                             st.write("Dataframe -")
+                             st.write(df)
                              
                              
                              
@@ -479,12 +454,8 @@ if st.session_state.runquery==1:
     if(option_selected==question_queries[9]):
                         try:
                              df=pd.read_sql_query(run_query_10(morning_start_time_select,morning_end_time_select,evening_start_time_select,evening_end_time_select,no_of_dependents),engine)
-                             if df.empty:
-                                st.write("No results found")
-                             else:
-                                st.write("Dataframe -")
-                                st.write(df)
-                             
+                             st.write("Dataframe -")
+                             st.write(df)
                         finally:
 
                             connection.close()
